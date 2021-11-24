@@ -1,6 +1,22 @@
 import ta
 import math
+from sklearn.linear_model import LogisticRegression
 
+
+def calc_x(df):
+    change = [0]
+    x = []
+    for i in range(0,len(df)):
+        x.append([df.iloc[i].MACD,df.iloc[i].SO,df.iloc[i].RSI,df.iloc[i]["12_SMA"],df.iloc[i]["12_EMA"],df.iloc[i].ROC])
+        if i != 0:
+            diff = df.iloc[i].close- df.iloc[i-1].close
+            if diff >= 0 :
+                change.append(1)
+            if diff < 0:
+                change.append(0)
+    df["change"] = change
+
+    return x
 
 def calculate_indicators(df):
     #calculando os indicadores
@@ -38,20 +54,9 @@ def calcula_p(inputs,coeficientes):
         soma += coeficientes[inp]*inputs[inp]
     return math.exp(soma)/(1+math.exp(soma))
 
-def calc_x(df):
-    change = [0]
-    x = []
-    for i in range(0,len(df)):
-        x.append([df.iloc[i].MACD,df.iloc[i].SO,df.iloc[i].RSI,df.iloc[i]["12_SMA"],df.iloc[i]["12_EMA"],df.iloc[i].ROC])
-        if i != 0:
-            diff = df.iloc[i].close- df.iloc[i-1].close
-            if diff >= 0 :
-                change.append(1)
-            if diff < 0:
-                change.append(0)
-    df["change"] = change
 
-    return x
+
+
 #6 - indicadores de volume, mineração de btc e remuneração dos mineradores
 
 
