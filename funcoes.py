@@ -3,20 +3,19 @@ import math
 from sklearn.linear_model import LogisticRegression
 
 
-def calc_x(df):
+def get_x_y(df):
     change = [0]
     x = []
     for i in range(0,len(df)):
-        x.append([df.iloc[i].MACD,df.iloc[i].SO,df.iloc[i].RSI,df.iloc[i]["12_SMA"],df.iloc[i]["12_EMA"],df.iloc[i].ROC])
+        x.append([df.iloc[i].MACD,df.iloc[i].RSI,df.iloc[i].SO,df.iloc[i]["12_SMA"],df.iloc[i]["12_EMA"],df.iloc[i].ROC,df.iloc[i]["tradecount"]])
         if i != 0:
             diff = df.iloc[i].close- df.iloc[i-1].close
             if diff >= 0 :
                 change.append(1)
             if diff < 0:
                 change.append(0)
-    df["change"] = change
 
-    return x
+    return x,change
 
 def calculate_indicators(df):
     #calculando os indicadores
