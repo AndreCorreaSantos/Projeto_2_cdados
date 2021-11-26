@@ -53,6 +53,11 @@ def calcula_p(inputs,coeficientes):
         soma += coeficientes[inp]*inputs[inp]
     return math.exp(soma)/(1+math.exp(soma))
 
+def calc_coefs(x_train,y_train):
+    model = LogisticRegression(max_iter=1000)
+    model.fit(x_train,y_train)
+    coeficientes = list(model.coef_[0])
+    return coeficientes
 
 
 
