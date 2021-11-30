@@ -3,7 +3,7 @@ import math
 from sklearn.linear_model import LogisticRegression
 
 
-def get_x_y(df):
+def get_x_y(df): #funcao que recebe o dataframe e retorna x -uma lista de listas que contem todos os features para cada row do dataframe. E retorna y - uma lista com o target para cada row
     change = [0]
     x = []
     for i in range(0,len(df)):
@@ -18,7 +18,7 @@ def get_x_y(df):
     return x,change
 
 def calculate_indicators(df):
-    #calculando os indicadores
+    #calculando os indicadores e colocando na base de dados que a funcao recebe
 
     #1 - MACD 
     df["MACD"] = ta.trend.macd(close=df.close) # Nas primeiras 26 linhas MACD retorna nan, pois precisa de 26 elementos.
@@ -48,13 +48,13 @@ def calculate_indicators(df):
     
     return
 
-def calcula_p(inputs,coeficientes):
+def calcula_p(inputs,coeficientes): #funcao que recebe valores de features e coeficientes de regressao e calcula o target estimado (entre 0 e 1)
     soma = 0
     for inp in range(0,len(inputs)):
         soma += coeficientes[inp]*inputs[inp]
     return math.exp(soma)/(1+math.exp(soma))
 
-def calc_coefs(x_train,y_train):
+def calc_coefs(x_train,y_train): #funcao que recebe uma lista com os features para cada row (x_train) e uma lista com os targets para cada row (y_train)
     model = LogisticRegression(max_iter=1000)
     model.fit(x_train,y_train)
     coeficientes = list(model.coef_[0])
