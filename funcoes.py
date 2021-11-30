@@ -45,6 +45,7 @@ def calculate_indicators(df):
     #5 - Rate of change (ROC)
     ROC_window = 24 #definir window direito (minima ideia qual window tem que meter aqui)
     df["ROC"] = ta.momentum.roc(close=df.close,window=ROC_window)
+    
     return
 
 def calcula_p(inputs,coeficientes):
